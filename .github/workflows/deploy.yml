@@ -23,9 +23,9 @@ jobs:
             - name: Set deploy directory
               env:
                   RELEASE_BRANCH: "refs/heads/main"
-                  RELEASE_DIR: "/www/wwwroot/auth-qdsj/release"
+                  RELEASE_DIR: "/www/wwwroot/authqdsj/release"
                   DEV_BRANCH: "refs/heads/develop"
-                  DEV_DIR: "/www/wwwroot/auth-qdsj/develop"
+                  DEV_DIR: "/www/wwwroot/authqdsj/develop"
               run: |
                   # 根据分支设置部署路径
                   if [ "${{ github.ref }}" = "$RELEASE_BRANCH" ]; then
