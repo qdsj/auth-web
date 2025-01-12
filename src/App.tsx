@@ -6,7 +6,7 @@ import Register from "./pages/Register";
 function App() {
 	return (
 		<>
-			<BrowserRouter>
+			<BrowserRouter basename='/authqdsj'>
 				<Routes>
 					<Route path='/login' element={<Login />} />
 					<Route path='/register' element={<Register />} />
