@@ -5,6 +5,10 @@ import react from "@vitejs/plugin-react";
 export default defineConfig({
 	base: "/authqdsj",
 	plugins: [react()],
+	// build: {
+	// 	minify: false,
+	// 	sourcemap: true,
+	// },
 	server: {
 		port: 8088,
 		proxy: {

@@ -1,5 +1,5 @@
 import { Button, Form, Input, message, Spin } from "antd";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 import { register } from "../../api/auth";
 import { useState } from "react";
 
@@ -10,7 +10,6 @@ type FieldType = {
 
 export default function Register() {
 	const navigate = useNavigate();
-	const [messageApi, contextHolder] = message.useMessage();
 	const [loading, setLoading] = useState(false);
 
 	const registerClick = async (username: string, password: string) => {
@@ -18,13 +17,13 @@ export default function Register() {
 		try {
 			await register(username, password);
 
-			messageApi.success("注册成功");
+			message.success("注册成功");
 			setTimeout(() => {
 				navigate("/login");
 				setLoading(false);
 			}, 1000);
 		} catch (error) {
-			messageApi.error(error as string);
+			message.error(error as string);
 		}
 	};
 
@@ -39,7 +38,6 @@ export default function Register() {
 
 	return (
 		<div>
-			{contextHolder}
 			<center>
 				<h2 className='text-2xl font-bold mt-[10vh]'>注册</h2>
 			</center>

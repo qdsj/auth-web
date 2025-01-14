@@ -1,6 +1,6 @@
 import { Button, Input, message, Form } from "antd";
 import { login } from "../../api/auth";
-import { useLocation } from "react-router";
+import { useLocation } from "react-router-dom";
 
 type FieldType = {
 	username: string;
@@ -12,18 +12,16 @@ export default function Login() {
 	const searchParams = new URLSearchParams(location.search);
 	const redirect = searchParams.get("redirect");
 
-	const [messageApi, contextHolder] = message.useMessage();
-
 	const loginClick = async (username: string, password: string) => {
 		try {
 			await login(username, password);
 
-			messageApi.success("登录成功");
+			message.success("登录成功");
 			setTimeout(() => {
 				window.location.href = redirect || "https://qdsj.com";
 			}, 1000);
 		} catch (error) {
-			messageApi.error(error as string);
+			message.error(error as string);
 		}
 	};
 
@@ -38,7 +36,6 @@ export default function Login() {
 
 	return (
 		<div>
-			{contextHolder}
 			<center>
 				<h2 className='text-2xl font-bold mt-[10vh]'>登录</h2>
 			</center>
