@@ -1,5 +1,5 @@
 const isProduction = import.meta.env.PROD;
-const baseUrl = isProduction ? "https://dev.qdsj.com/server/authqdsj" : "/api";
+const baseUrl = isProduction ? "https://dev.qdsj.top/server/authqdsj" : "/api";
 
 const fetchApi = (url: string, options: RequestInit) => {
 	return fetch(baseUrl + url, options).then(async (res) => {
