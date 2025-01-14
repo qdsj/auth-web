@@ -1,5 +1,8 @@
+const isProduction = import.meta.env.PROD;
+const baseUrl = isProduction ? "https://localhost:3100" : "/api";
+
 const fetchApi = (url: string, options: RequestInit) => {
-	return fetch(url, options).then(async (res) => {
+	return fetch(baseUrl + url, options).then(async (res) => {
 		if (res.status >= 200 && res.status < 400) {
 			return res.json();
 		}
@@ -22,15 +25,15 @@ const getFetch = (url: string) => {
 };
 
 const register = (username: string, password: string) => {
-	return postFetch("/api/auth/register", { username, password });
+	return postFetch("/auth/register", { username, password });
 };
 
 const login = (username: string, password: string) => {
-	return postFetch("/api/auth/login", { username, password });
+	return postFetch("/auth/login", { username, password });
 };
 
 const logout = () => {
-	return getFetch("/api/auth/logout");
+	return getFetch("/auth/logout");
 };
 
 export { register, login, logout };
