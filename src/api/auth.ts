@@ -1,5 +1,5 @@
 const isProduction = import.meta.env.PROD;
-const baseUrl = isProduction ? "https://dev.qdsj.com/server/authqdsj" : "/api";
+const baseUrl = isProduction ? "http://dev.qdsj.com/server/authqdsj" : "/api";
 
 const fetchApi = (url: string, options: RequestInit) => {
 	return fetch(baseUrl + url, options).then(async (res) => {
@@ -29,7 +29,7 @@ const register = (username: string, password: string) => {
 };
 
 const login = (username: string, password: string) => {
-	return postFetch("/auth/login1", { username, password });
+	return postFetch("/auth/login", { username, password });
 };
 
 const logout = () => {
