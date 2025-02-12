@@ -12,6 +12,8 @@ export default function Login() {
 			const isSucceed = await login(username, password);
 			if (isSucceed) {
 				message.success("登录成功");
+			} else {
+				message.error("登录失败");
 			}
 		} catch (error) {
 			message.error(error as string);
@@ -19,7 +21,6 @@ export default function Login() {
 	};
 
 	const onFinish = (values: FieldType) => {
-		console.log(values);
 		loginClick(values.username, values.password);
 	};
 
@@ -58,6 +59,15 @@ export default function Login() {
 								登录
 							</Button>
 						</Form.Item>
+						<div>
+							<Button
+								type='link'
+								onClick={() => {
+									window.location.href = "register";
+								}}>
+								注册
+							</Button>
+						</div>
 					</Form>
 				</div>
 			</div>

@@ -68,6 +68,15 @@ export default function Register() {
 									注册
 								</Button>
 							</Form.Item>
+							<div>
+								<Button
+									type='link'
+									onClick={() => {
+										window.location.href = "login";
+									}}>
+									已有账号？去登录
+								</Button>
+							</div>
 						</Form>
 					</div>
 				</Spin>
