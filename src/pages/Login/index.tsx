@@ -1,6 +1,5 @@
-import { Button, Input, message, Form } from "antd";
+import { Button, Form, Input, message } from "antd";
 import { login } from "../../api/auth";
-import { useLocation } from "react-router-dom";
 
 type FieldType = {
 	username: string;
@@ -8,18 +7,12 @@ type FieldType = {
 };
 
 export default function Login() {
-	const location = useLocation();
-	const searchParams = new URLSearchParams(location.search);
-	const redirect = searchParams.get("redirect");
-
 	const loginClick = async (username: string, password: string) => {
 		try {
-			await login(username, password);
-
-			message.success("登录成功");
-			setTimeout(() => {
-				window.location.href = redirect || "https://qdsj.com";
-			}, 1000);
+			const isSucceed = await login(username, password);
+			if (isSucceed) {
+				message.success("登录成功");
+			}
 		} catch (error) {
 			message.error(error as string);
 		}

@@ -10,7 +10,7 @@ export default defineConfig({
 	// 	sourcemap: true,
 	// },
 	server: {
-		port: 8088,
+		port: 3111,
 		proxy: {
 			"/api": {
 				target: "http://localhost:3100",
