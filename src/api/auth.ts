@@ -1,30 +1,5 @@
-const isProduction = import.meta.env.PROD;
-const baseUrl = isProduction ? "https://dev.qdsj.top/server/authqdsj" : "/api";
-
-const fetchApi = (url: string, options: RequestInit & { isNeedResponse?: boolean }) => {
-	return fetch(baseUrl + url, options).then(async (res) => {
-		if (res.status >= 200 && res.status < 400) {
-			if (options.isNeedResponse) return res;
-			return res.json();
-		}
-		throw (await res.json()).message;
-	});
-};
-
-const postFetch = (url: string, data: Record<string, any>, options?: { isNeedResponse?: boolean }) => {
-	return fetchApi(url, {
-		headers: {
-			"Content-Type": "application/json",
-		},
-		method: "POST",
-		body: JSON.stringify(data),
-		...options,
-	});
-};
-
-const getFetch = (url: string) => {
-	return fetchApi(url, { method: "GET" });
-};
+import { message } from "antd";
+import { getFetch, postFetch } from "./http";
 
 const register = (username: string, password: string) => {
 	return postFetch("/auth/register", { username, password });
@@ -51,17 +26,14 @@ const login = async (username: string, password: string) => {
 
 const sendTokenToOpener = (token: string) => {
 	if (!token || !window.opener) return false;
+	// 发送给father页面后，father页面会校验信息，校验通过就会关闭当前页面
 	window.opener.postMessage({ type: "auth-token", token }, "*");
 
 	window.addEventListener("message", (event) => {
-		if (event.data.type === "auth-token") {
-			const urlParams = new URLSearchParams(window.location.search);
-			setTimeout(() => {
-				window.location.href = urlParams.get("redirect") || "https://qdsj.top";
-			}, 1000);
+		if (event.data.type === "close") {
+			message.success("准备跳回之前页面");
 		}
 	});
-
 	return true;
 };
 
