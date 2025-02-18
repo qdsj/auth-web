@@ -25,7 +25,18 @@ const login = async (username: string, password: string) => {
 };
 
 const sendTokenToOpener = (token: string) => {
-	if (!token || !window.opener) return false;
+	if (!token) return;
+	if (!window.opener) {
+		setTimeout(() => {
+			window.location.href = import.meta.env.DEFAULT_REDIRECT;
+		}, 2000);
+	} else {
+		redirectOpenPage(token);
+	}
+	return true;
+};
+
+const redirectOpenPage = (token: string) => {
 	// 发送给father页面后，father页面会校验信息，校验通过就会关闭当前页面
 	window.opener.postMessage({ type: "auth-token", token }, "*");
 
@@ -34,7 +45,6 @@ const sendTokenToOpener = (token: string) => {
 			message.success("准备跳回之前页面");
 		}
 	});
-	return true;
 };
 
 const logout = () => {
