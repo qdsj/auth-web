@@ -28,7 +28,7 @@ const sendTokenToOpener = (token: string) => {
 	if (!token) return;
 	if (!window.opener) {
 		setTimeout(() => {
-			window.location.href = import.meta.env.DEFAULT_REDIRECT;
+			window.location.href = import.meta.env.VITE_DEFAULT_REDIRECT;
 		}, 2000);
 	} else {
 		redirectOpenPage(token);
