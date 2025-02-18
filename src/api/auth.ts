@@ -27,7 +27,7 @@ const login = async (username: string, password: string) => {
 const sendTokenToOpener = (token: string) => {
 	if (!token) return;
 	if (!window.opener) {
-		localStorage.setItem("auth-token", token);
+		localStorage.setItem("refresh-token", token);
 		setTimeout(() => {
 			window.location.href = import.meta.env.VITE_DEFAULT_REDIRECT;
 		}, 2000);
