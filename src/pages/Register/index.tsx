@@ -2,20 +2,23 @@ import { Button, Form, Input, message, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { register } from "../../api/auth";
 import { useState } from "react";
+import { RegisterDto } from "../../types/register.dto";
 
 type FieldType = {
 	username: string;
+	email: string;
 	password: string;
+	confirmPassword: string;
 };
 
 export default function Register() {
 	const navigate = useNavigate();
 	const [loading, setLoading] = useState(false);
 
-	const registerClick = async (username: string, password: string) => {
+	const registerClick = async (data: RegisterDto) => {
 		setLoading(true);
 		try {
-			await register(username, password);
+			await register(data);
 
 			message.success("注册成功");
 			setTimeout(() => {
@@ -29,7 +32,7 @@ export default function Register() {
 
 	const onFinish = (values: FieldType) => {
 		console.log(values);
-		registerClick(values.username, values.password);
+		registerClick(values);
 	};
 
 	const onFinishFailed = (errorInfo: any) => {
@@ -57,9 +60,37 @@ export default function Register() {
 								<Input />
 							</Form.Item>
 							<Form.Item<FieldType>
+								label='邮箱'
+								name='email'
+								rules={[
+									{ required: true, message: "请输入邮箱" },
+									{
+										pattern: /^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$/,
+										message: "邮箱格式不正确",
+									},
+								]}>
+								<Input />
+							</Form.Item>
+							<Form.Item<FieldType>
 								label='密码'
 								name='password'
 								rules={[{ required: true, message: "请输入密码" }]}>
+								<Input.Password />
+							</Form.Item>
+							<Form.Item<FieldType>
+								label='确认密码'
+								name='confirmPassword'
+								dependencies={["password"]}
+								rules={[
+									{ required: true, message: "请输入密码" },
+									({ getFieldValue }) => ({
+										validator: (_, value) => {
+											if (!value || value == getFieldValue("password")) return Promise.resolve();
+
+											return Promise.reject("两次密码不一致");
+										},
+									}),
+								]}>
 								<Input.Password />
 							</Form.Item>
 
@@ -72,7 +103,7 @@ export default function Register() {
 								<Button
 									type='link'
 									onClick={() => {
-										window.location.href = "login";
+										navigate("/login");
 									}}>
 									已有账号？去登录
 								</Button>

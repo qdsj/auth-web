@@ -1,8 +1,9 @@
-import { message } from "antd";
+import { RegisterDto } from "../types/register.dto";
 import { getFetch, postFetch } from "./http";
+import { sendTokenToOpener } from "./util";
 
-const register = (username: string, password: string) => {
-	return postFetch("/auth/register", { username, password });
+const register = (data: RegisterDto) => {
+	return postFetch("/auth/register", data);
 };
 
 const login = async (username: string, password: string) => {
@@ -24,32 +25,8 @@ const login = async (username: string, password: string) => {
 	}
 };
 
-const sendTokenToOpener = (token: string) => {
-	if (!token) return;
-	if (!window.opener) {
-		localStorage.setItem("refresh-token", token);
-		setTimeout(() => {
-			window.location.href = import.meta.env.VITE_DEFAULT_REDIRECT;
-		}, 2000);
-	} else {
-		redirectOpenPage(token);
-	}
-	return true;
-};
-
-const redirectOpenPage = (token: string) => {
-	// 发送给father页面后，father页面会校验信息，校验通过就会关闭当前页面
-	window.opener.postMessage({ type: "auth-token", token }, "*");
-
-	window.addEventListener("message", (event) => {
-		if (event.data.type === "close") {
-			message.success("准备跳回之前页面");
-		}
-	});
-};
-
 const logout = () => {
 	return getFetch("/auth/logout");
 };
 
-export { register, login, logout };
+export { login, logout, register };

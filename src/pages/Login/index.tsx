@@ -1,5 +1,6 @@
 import { Button, Form, Input, message } from "antd";
 import { login } from "../../api/auth";
+import { useNavigate } from "react-router-dom";
 
 type FieldType = {
 	username: string;
@@ -7,6 +8,7 @@ type FieldType = {
 };
 
 export default function Login() {
+	const navigate = useNavigate();
 	const loginClick = async (username: string, password: string) => {
 		try {
 			const isSucceed = await login(username, password);
@@ -63,7 +65,7 @@ export default function Login() {
 							<Button
 								type='link'
 								onClick={() => {
-									window.location.href = "register";
+									navigate("/register");
 								}}>
 								注册
 							</Button>
