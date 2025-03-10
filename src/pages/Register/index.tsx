@@ -19,14 +19,14 @@ export default function Register() {
 		setLoading(true);
 		try {
 			await register(data);
-
 			message.success("注册成功");
 			setTimeout(() => {
 				navigate("/login");
-				setLoading(false);
 			}, 1000);
 		} catch (error) {
 			message.error(error as string);
+		} finally {
+			setLoading(false);
 		}
 	};
 
